@@ -3,7 +3,7 @@ import collections
 import math
 
 # cost, in mg, of various raw materials
-_COST_SCALE = 1/2
+_COST_SCALE = 1
 _DENOMINATOR = 173
 _CRYSTAL_SCALE = 3
 
@@ -17,6 +17,7 @@ COSTS = dict(
     flint=16 / 5,
     water=5,
 
+    quartz=(64.5/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
     coal=(22.3/_DENOMINATOR)*_COST_SCALE,
     steel_ingot=(23.2/_DENOMINATOR)*_COST_SCALE,
     gold_ingot=(173/_DENOMINATOR)*_COST_SCALE,
@@ -41,7 +42,7 @@ class Components(collections.Counter):
             for key, val in self.items()
         })
 
-    def __div__(self, n: int):
+    def __truediv__(self, n: int):
         if not isinstance(n, int):
             return NotImplemented
 
@@ -49,6 +50,9 @@ class Components(collections.Counter):
             key: val / n
             for key, val in self.items()
         })
+
+    def __add__(self, other):
+        return type(self)(super().__add__(other))
 
 
 def cost_of(c: Components, markup: float=1.0, round_up: float=None) -> float:
@@ -147,7 +151,7 @@ def main(args):
 
     upgrade_base = (terumetal_coil * 3) + (teruceramic * 2) + plant_glue
     max_heat_upgrade = upgrade_base + ((terusteel_ingot + thermese) * 4)
-    crystal_upgrade = upgrade_base + ((diamond_crystal + mese_crystal) * 4)
+    crystal_upgrade = upgrade_base + ((diamond_crystal + entropic_crystal) * 4)
     speed_upgrade = upgrade_base + ((diamond_crystal + coreglass_ingot) * 4)
     heat_gen_upgrade = upgrade_base + ((mese_crystal + terugold_coil) * 4)
     heat_trans_upgrade = upgrade_base + ((gold_crystal + terugold_coil) * 4)
@@ -248,11 +252,17 @@ def main(args):
     print('mithril chest       ', cost_of(mithril_chest, args.markup, args.roundup))
 
     elevator = titanium_block + (glass * 2) + (steel_ingot * 6)
-    travelnet = (2 * titanium_block) + (3 * mese_block) + (4 * glass)
+    travelnet = (titanium_block * 2) + (mese_block * 3) + (glass * 4)
 
     print()
     print('elevator            ', cost_of(elevator, args.markup, args.roundup))
     print('travelnet           ', cost_of(travelnet, args.markup, args.roundup))
+
+    quartz = Components(quartz=1)
+    quartz_block = quartz * 1
+
+    print()
+    print('99*quartz block     ', cost_of(quartz_block * 99, args.markup, args.roundup))
 
 
 def parse_args(argv=None, namespace=None):
