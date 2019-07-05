@@ -4,7 +4,7 @@ import math
 
 # cost, in mg, of various raw materials
 _COST_SCALE = 1
-_DENOMINATOR = 173
+_DENOMINATOR = 172.20  # gold ore
 _CRYSTAL_SCALE = 3
 
 COSTS = dict(
@@ -15,24 +15,26 @@ COSTS = dict(
     dirt=5/99,
     tree=1/99,
     cotton=10/99,
-    obsidian=5,
+    obsidian=1/99,
     flint=16 / 5,
     water=1,
     flower=1,
     sapling=1,
 
-    quartz=(64.5/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
-    coal=(22.3/_DENOMINATOR)*_COST_SCALE,
-    steel_ingot=(23.2/_DENOMINATOR)*_COST_SCALE,
-    gold_ingot=(173/_DENOMINATOR)*_COST_SCALE,
-    copper_ingot=(56.6/_DENOMINATOR)*_COST_SCALE,
-    tin_ingot=(77.7/_DENOMINATOR)*_COST_SCALE,
-    mese=(220/_DENOMINATOR)*_COST_SCALE,
-    diamond=(345/_DENOMINATOR)*_COST_SCALE,
-    terumetal_ingot=(111/_DENOMINATOR)*_COST_SCALE,
-    silver_ingot=(129/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
-    mithril_ingot=(525/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
-    titanium=(694/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
+    # scaled by what comes out of the gravel sieve
+    coal=(22.28/_DENOMINATOR)*_COST_SCALE,
+    steel_ingot=(23.15/_DENOMINATOR)*_COST_SCALE,
+    gold_ingot=(172.20/_DENOMINATOR)*_COST_SCALE,
+    copper_ingot=(56.57/_DENOMINATOR)*_COST_SCALE,
+    tin_ingot=(77.60/_DENOMINATOR)*_COST_SCALE,
+    terumetal_ingot=(114.75/_DENOMINATOR)*_COST_SCALE,
+    silver_ingot=(128.68/_DENOMINATOR)*_COST_SCALE,
+    mithril_ingot=(523.34/_DENOMINATOR)*_COST_SCALE,
+
+    quartz=(64.46/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
+    mese=(218.43/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
+    diamond=(341.10/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
+    titanium=(665.85/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
 )
 
 
@@ -73,7 +75,9 @@ def cost_of(c: Components, markup: float=1.0, round_up: float=None) -> float:
 
 def main(args):
     # crafting recipes
+    # default materials
     stone = Components(stone=1)
+    cobblestone = stone * 1
     tree = Components(tree=1)
     planks = tree / 4
     stick = planks / 4
@@ -89,40 +93,79 @@ def main(args):
     sapling = Components(sapling=1)
     dye = flower / 4
     dirt = Components(dirt=1)
+    obsidian = Components(obsidian=1)
+    obsidian_shard = obsidian / 9
+    obsidian_grit = obsidian_shard
+    obsidian_glass = obsidian_shard
+    clay = Components(clay=1)
+    papyrus = leaves * 1
 
+    # metals and other ores
     steel_ingot = Components(steel_ingot=1)
     steel_block = steel_ingot * 9
     gold_ingot = Components(gold_ingot=1)
+    gold_block = gold_ingot * 9
     copper_ingot = Components(copper_ingot=1)
     copper_block = copper_ingot * 9
     tin_ingot = Components(tin_ingot=1)
+    tin_block = tin_ingot * 9
     terumetal_ingot = Components(terumetal_ingot=1)
-    bronze_ingot = ((copper_ingot * 8) + tin_ingot) / 9
+    terumetal_block = terumetal_ingot * 9
     diamond = Components(diamond=1)
     diamond_block = diamond * 9
     mese = Components(mese=1)
     mese_block = mese * 9
     mese_fragment = mese / 9
     silver_ingot = Components(silver_ingot=1)
+    silver_block = silver_ingot * 9
     mithril_ingot = Components(mithril_ingot=1)
+    mithril_block = mithril_ingot * 9
     titanium = Components(titanium=1)
     titanium_block = titanium * 9
     coal = Components(coal=1)
     coal_block = coal * 9
+    quartz = Components(quartz=1)
+    quartz_block = quartz * 1
+    brass_ingot = ((copper_ingot * 2) + silver_ingot) / 3
+    brass_block = brass_ingot * 9
+    bronze_ingot = ((copper_ingot * 8) + tin_ingot) / 9
+    bronze_block = bronze_ingot * 9
 
-    obsidian = Components(obsidian=1)
-    obsidian_shard = obsidian / 9
-    obsidian_grit = obsidian_shard
-    obsidian_glass = obsidian_shard
-
-    clay = Components(clay=1)
-
+    # basic craftables
     bucket = steel_ingot * 3
     water_bucket = bucket + water
     furnace = stone * 8
-    tube = (steel_ingot + tin_ingot + (planks * 3)) / 4
     chest = planks * 8
+    torch = (coal + stick) / 4
 
+    tube = (steel_ingot + tin_ingot + (planks * 3)) / 4
+
+    # "basic materials" mod
+    heating_element = ((copper_ingot * 2) + mese_fragment) / 2
+    silicon = ((sand * 3) + steel_ingot) / 4
+    simple_ic = ((silicon * 3) + copper_ingot) / 4
+    copper_strip = copper_ingot / 6
+    steel_strip = steel_ingot / 6
+    chain_link_steel = steel_ingot / 2
+    chain_steel = (chain_link_steel * 3) / 2
+    chain_link_brass = brass_ingot / 2
+    chain_brass = (chain_link_brass * 3) / 2
+    steel_gear = ((steel_ingot * 4) + chain_link_steel) / 6
+    oil_extract = leaves * 3
+    steel_bar = steel_ingot / 2
+    parafin = oil_extract
+    plastic = parafin
+    plastic_strip = plastic / 3
+    empty_spool = (plastic * 7) / 3
+    steel_spool = ((empty_spool * 2) + steel_ingot) / 2
+    copper_spool = ((empty_spool * 2) + copper_ingot) / 2
+    gold_spool = ((empty_spool * 2) + gold_ingot) / 2
+    silver_spool = ((empty_spool * 2) + silver_ingot) / 2
+    padlock = ((steel_ingot * 2) + steel_bar) / 2
+    energy_crystal = (diamond * 2) + (mese_fragment * 2) + torch + gold_ingot
+    motor = (mese_fragment * 2) + (copper_spool * 2) + (plastic * 2) + (steel_ingot * 2) + copper_ingot
+
+    # terumet crystalized things
     iron_crystal = steel_ingot
     gold_crystal = gold_ingot
     tin_crystal = tin_ingot
@@ -132,24 +175,31 @@ def main(args):
     diamond_crystal = diamond
     mese_crystal = mese
 
-    terusteel_ingot = steel_ingot + terumetal_ingot * 2
-    terucopper_ingot = copper_ingot + terumetal_ingot
+    flux = terumetal_ingot / 2
+    terusteel_ingot = steel_ingot + (flux * 2)
+    terucopper_ingot = copper_ingot + flux
     terucopper_block = terucopper_ingot * 9
-    terutin_ingot = tin_ingot + terumetal_ingot
+    terutin_ingot = tin_ingot + flux
     terutin_block = terutin_ingot * 9
-    terugold_ingot = gold_ingot + (terumetal_ingot * 3)
-    coreglass_ingot = diamond + obsidian_shard + (terumetal_ingot * 5)
-    teruchalchum_ingot = (bronze_ingot + (tin_ingot * 2) + (terumetal_ingot * 9)) / 3
-    teruceramic = clay + (terumetal_ingot * 2)
+    terugold_ingot = gold_ingot + (flux * 3)
+    coreglass_ingot = diamond + obsidian_shard + (flux * 5)
+    teruchalchum_ingot = (bronze_ingot + (tin_ingot * 2) + (flux * 9)) / 3
+    teruceramic = clay + (flux * 2)
     teruceramic_block = teruceramic * 9
-    thermese = mese + (terumetal_ingot * 4)
+    thermese = mese + (flux * 4)
     thermese_block = thermese * 9
 
-    terumetal_coil = ((terumetal_ingot * 8) + stick) / 8
-    terucopper_coil = ((terucopper_ingot * 8) + stick) / 8
-    terugold_coil = ((terugold_ingot * 8) + stick) / 8
+    terumetal_coil = terumetal_ingot
+    terucopper_coil = terucopper_ingot
+    terugold_coil = terugold_ingot
+
+    terumetal_heater = (heating_element * 2) + terumetal_coil
+    thermese_element = ((terucopper_ingot * 2) + thermese) / 2
+    thermese_heater = (thermese_element * 2) + terugold_coil
+    thermese_array = thermese_heater * 6
 
     biomatter = leaves
+    biomatter_block = biomatter * 9
     plant_glue = biomatter + water_bucket
     mulch = tree / 4
     pressed_wood = (plant_glue + (mulch * 8)) / 16
@@ -164,51 +214,77 @@ def main(args):
     expansion_press = (stone * 2) + terutin_block + (teruchalchum_ingot * 3) + (terutin_ingot * 3)
 
     upgrade_base = (terumetal_coil * 3) + (teruceramic * 2) + plant_glue
-    max_heat_upgrade = upgrade_base + ((terusteel_ingot + thermese) * 4)
-    crystal_upgrade = upgrade_base + ((diamond_crystal + entropic_crystal) * 4)
-    speed_upgrade = upgrade_base + ((diamond_crystal + coreglass_ingot) * 4)
-    heat_gen_upgrade = upgrade_base + ((mese_crystal + terugold_coil) * 4)
-    heat_trans_upgrade = upgrade_base + ((gold_crystal + terugold_coil) * 4)
-    external_in_upgrade = upgrade_base + (terucopper_coil * 7) + chest
-    external_out_upgrade = upgrade_base + (terucopper_coil * 7) + chest
-    tubelib_upgrade = upgrade_base + tube
+    max_heat_upgrade = upgrade_base + (thermese * 3)
+    heat_gen_upgrade = upgrade_base + (thermese_heater * 3)
+    heat_trans_upgrade = upgrade_base + (terugold_coil * 3)
+    external_in_upgrade = upgrade_base + motor + (steel_gear * 2)
+    external_out_upgrade = upgrade_base + (motor * 2) + steel_gear
+    external_io_upgrade = external_in_upgrade + external_out_upgrade + plant_glue + thermese
+    tubelib_upgrade = upgrade_base + (tube * 2) + plant_glue + thermese
+    terumetal_upgrade = upgrade_base + thermese_heater + (crystal_growth_chamber * 2) + (terumetal_crystal * 3)
+    crystal_upgrade = upgrade_base + thermese_array + (energy_crystal * 3) + (entropic_crystal * 3) + crystal_growth_chamber
+    speed_upgrade = upgrade_base + thermese_array + (energy_crystal * 3) + (diamond_crystal * 3)
+
+    terumetal_frame = terumetal_heater + (terumetal_ingot * 8)
+    terusteel_frame = thermese_heater + (terusteel_ingot * 8)
+    coreglass_frame = thermese_array + (coreglass_ingot * 8)
 
     heatline = ((terugold_coil * 3) + (teruceramic * 6)) / 6
     heatline_distributor = thermese_block + (terugold_coil * 4) + (teruceramic * 4)
-
-    thermobox = teruceramic_block + ((thermese + terugold_coil) * 4)
     thermal_distributor = teruceramic_block + ((terumetal_coil + terucopper_coil) * 4)
+    thermobox = teruceramic_block + ((thermese + terugold_coil) * 4)
+    heat_emitter = coreglass_frame + heat_glass + (terugold_coil * 4) + (teruceramic * 2) + heat_unit
     heat_reflector = tin_ingot + ((terumetal_ingot + heat_glass) * 4)
 
-    terumetal_frame = copper_block + (terumetal_ingot * 8)
-    terusteel_frame = thermese + (terusteel_ingot * 8)
-    coreglass_frame = thermobox + (coreglass_ingot * 8)
+    furnace_heater = terumetal_frame + furnace + copper_block + (terucopper_coil * 2) + (teruceramic * 2) + (copper_strip * 2)
+    solar_heater = terusteel_frame + (heat_glass * 3) + (terugold_coil * 2) + (thermese * 2) + water_bucket
+    eee_heater = coreglass_frame + heat_glass + (energy_crystal * 4) + (entropic_crystal * 2) + thermobox
 
-    furnace_heater = terumetal_frame + furnace + terucopper_block + (terucopper_coil * 4) + (teruceramic * 2)
-    alloy_smelter = terumetal_frame + (terumetal_coil * 3) + (bucket * 2) + (furnace * 3)
-    crusher = terumetal_frame + (terucopper_coil * 4) + (teruchalchum_ingot * 2) + (expansion_press * 2)
-    lava_melter = terumetal_frame + furnace + (terumetal_coil * 3) + (terutin_ingot * 4)
+    alloy_smelter = terumetal_frame + (terumetal_coil * 2) + (bucket * 2) + terumetal_heater + (copper_strip * 3)
+    crusher = terumetal_frame + (terucopper_coil * 4) + (steel_strip * 2) + (expansion_press * 2)
+    lava_melter = terumetal_frame + (terutin_ingot * 4) + (terumetal_heater * 4)
 
-    solar_heater = terusteel_frame + (heat_glass * 3) + (terugold_coil * 4) + water_bucket
-    ht_furnace = terusteel_frame + (terucopper_coil * 3) + (teruceramic * 5)
-    vulcanizer = terusteel_frame + (terugold_coil * 2) + (thermese * 2) + (teruceramic * 2) + teruceramic_block + crystal_growth_chamber
-    mese_garden = terusteel_frame + terucopper_coil + crystal_growth_chamber + (thermese * 2) + (teruceramic * 4)
-    reformer = terusteel_frame + bucket + (teruceramic * 3) + (terugold_coil * 4)
+    ht_furnace = terusteel_frame + (thermese_heater * 2) + (teruceramic * 5) + copper_strip
+    vulcanizer = terusteel_frame + (terugold_coil * 2) + (thermese * 2) + (teruceramic_block * 2) + crystal_growth_chamber + energy_crystal
+    mese_garden = terusteel_frame + crystal_growth_chamber + (thermese * 2) + (teruceramic * 4) + energy_crystal
+    reformer = terusteel_frame + bucket + (teruceramic * 4) + (terugold_coil * 2) + crystal_growth_chamber
 
-    eee_heater = coreglass_frame + heat_glass + (heat_gen_upgrade * 2) + (entropic_crystal * 3) + (teruceramic_block * 2)
-    heat_emitter = coreglass_frame + heat_glass + (terugold_coil * 4) + (teruceramic * 2) + heat_unit
+    vacuum_oven = coreglass_frame + (motor * 2) + (teruchalchum_ingot * 2) + (thermese_array * 2) + (teruceramic_block * 2)
+
+    tarball = coal / 4
+    bio_tar = (tarball * 4) + biomatter
+    rubber_bar = bio_tar
 
     ore_saw = (teruchalchum_ingot * 4) + (terusteel_ingot * 3)
+    advanced_ore_saw = ore_saw + coreglass_ingot + (rubber_bar * 3) + (flux * 6)
+
     coreglass_pick = (coreglass_ingot * 3) + (stick * 2)
-    terutin_boots = (terutin_ingot * 4)
-    terutin_helm = (terutin_ingot * 5)
-    terutin_legs = (terutin_ingot * 7)
-    terutin_chest = (terutin_ingot * 8)
+
+    # terutin_boots = (terutin_ingot * 4)
+    # terutin_helm = (terutin_ingot * 5)
+    # terutin_legs = (terutin_ingot * 7)
+    # terutin_chest = (terutin_ingot * 8)
+
+    rsuit_mat = rubber_bar + coreglass_ingot + teruceramic + (flux * 8)
+    vulcan_boots = rsuit_mat * 4
+    vulcan_helm = rsuit_mat * 5
+    vulcan_legs = rsuit_mat * 7
+    vulcan_chest = rsuit_mat * 8
 
     bracers = (terumetal_crystal * 5) + (terugold_coil * 4)
     bracer_base_element = steel_block / 2
-    antigrav_element = bracer_base_element + flint + (terumetal_ingot * 4)
+    antigrav_element = bracer_base_element + entropic_crystal + (flux * 4)
     antigrav_bracers = bracers + (antigrav_element * 8)
+    aqua_element = bracer_base_element + papyrus + (flux * 4)
+    defense_element = bracer_base_element + rsuit_mat + (flux * 4)
+    fireproof_element = bracer_base_element + obsidian_crystal + (flux * 4)
+    heal_element = bracer_base_element + biomatter_block + (flux * 4)
+    jump_element = bracer_base_element + mese_crystal + (flux * 4)
+    speed_element = bracer_base_element + diamond_crystal + (flux * 4)
+
+    copper_heat_battery = (terumetal_ingot * 6) + (copper_ingot * 3)
+    thermese_heat_battery = (teruceramic * 6) + (thermese * 3)
+    void_battery = (cobblestone * 2) + entropic_crystal
 
     print("furnace heater      ", cost_of(furnace_heater, args.markup, args.roundup))
     print("solar heater        ", cost_of(solar_heater, args.markup, args.roundup))
@@ -223,6 +299,8 @@ def main(args):
     print("vulcanizer          ", cost_of(vulcanizer, args.markup, args.roundup))
     print("mese garden         ", cost_of(mese_garden, args.markup, args.roundup))
     print("reformer            ", cost_of(reformer, args.markup, args.roundup))
+    print()
+    print('vacuum_oven         ', cost_of(vacuum_oven, args.markup, args.roundup))
     print()
     print("thermal_distributor ", cost_of(thermal_distributor, args.markup, args.roundup))
     print("thermobox           ", cost_of(thermobox, args.markup, args.roundup))
@@ -241,11 +319,12 @@ def main(args):
     print('tubelib_upgrade     ', cost_of(tubelib_upgrade, args.markup, args.roundup))
     print()
     print('ore saw             ', cost_of(ore_saw, args.markup, args.roundup))
+    print('advanced ore saw    ', cost_of(advanced_ore_saw, args.markup, args.roundup))
     print('coreglass pick      ', cost_of(coreglass_pick, args.markup, args.roundup))
-    print('terutin_boots       ', cost_of(terutin_boots, args.markup, args.roundup))
-    print('terutin_helm        ', cost_of(terutin_helm, args.markup, args.roundup))
-    print('terutin_legs        ', cost_of(terutin_legs, args.markup, args.roundup))
-    print('terutin_chest       ', cost_of(terutin_chest, args.markup, args.roundup))
+    print('vulcan_boots        ', cost_of(vulcan_boots, args.markup, args.roundup))
+    print('vulcan_helm         ', cost_of(vulcan_helm, args.markup, args.roundup))
+    print('vulcan_legs         ', cost_of(vulcan_legs, args.markup, args.roundup))
+    print('vulcan_chest        ', cost_of(vulcan_chest, args.markup, args.roundup))
     print('antigrav_bracers    ', cost_of(antigrav_bracers, args.markup, args.roundup))
 
     locked_chest = chest + steel_ingot
@@ -269,26 +348,14 @@ def main(args):
     print('elevator            ', cost_of(elevator, args.markup, args.roundup))
     print('travelnet           ', cost_of(travelnet, args.markup, args.roundup))
 
-    quartz = Components(quartz=1)
-    quartz_block = quartz * 1
-
     print()
     print('99*quartz block     ', cost_of(quartz_block * 99, args.markup, args.roundup))
 
     wlan_chip = (mese + copper_ingot + gold_ingot + glass) / 8
-    chainlink_steel = steel_ingot / 2
-    steel_gear = ((steel_ingot * 4) + chainlink_steel) / 6
-    oil_extract = leaves * 3
     end_wrench = ((steel_ingot * 2) + tin_ingot) / 4
-    steel_bar = steel_ingot / 2
-    parafin = oil_extract
-    plastic = parafin
-    plastic_strip = plastic / 3
 
     tougher_titanium = titanium * 4
     titanium_tv = (tougher_titanium * 4) + (steel_ingot * 4) + glass
-    torch = (coal + stick) / 4
-    energy_crystal = (diamond * 2) + (mese_fragment * 2) + torch + gold_ingot
 
     mesecon = mese / 18
 
@@ -405,7 +472,6 @@ def main(args):
     insulated_mesecon = mesecon + (fiber * 2)
     digiline = ((insulated_mesecon * 2) + (fiber * 6) + gold_ingot) / 2
 
-    silicon = ((sand * 3) + steel_ingot) / 4
     luacontroller = ((silicon * 4) + (mesecon * 4)) / 2
     microcontroller = luacontroller
     player_detector = (steel_ingot * 7) + microcontroller + microcontroller
@@ -425,11 +491,10 @@ def main(args):
     print('digiline_lcd        ', cost_of(digiline_lcd, args.markup, 1))
 
 
-
 def parse_args(argv=None, namespace=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--markup', '-m', type=float, default=1.2)
-    parser.add_argument('--roundup', '-r', type=float, default=5)
+    parser.add_argument('--markup', '-m', type=float, default=(1/4), help='default: %(default)s')
+    parser.add_argument('--roundup', '-r', type=float, default=1, help='default: %(default)s')
     return parser.parse_args(argv, namespace)
 
 
