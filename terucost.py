@@ -491,7 +491,7 @@ def main(args):
     print('digiline_lcd        ', cost_of(digiline_lcd, args.markup, 1))
 
     print()
-    print('iron ingot * 99     ', cost_of(steel_ingot * 99*3, args.markup, args.roundup))
+    print('iron lump * 99      ', cost_of(steel_ingot * 99*3, args.markup, args.roundup))
 
 
 def parse_args(argv=None, namespace=None):
