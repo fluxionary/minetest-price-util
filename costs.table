@@ -1,0 +1,108 @@
+furnace heater       4
+solar heater         9
+eee heater           62
+entropic_matrix      56
+
+alloy smelter        3
+crusher              10
+lava_melter          5
+
+ht furnace           9
+vulcanizer           15
+mese garden          12
+reformer             7
+
+vacuum_oven          58
+
+thermal_distributor  3
+thermobox            9
+heat emitter         36
+heat reflector       2
+11*heatline          5
+heatline_distributor 15
+
+crystal_upgrade      42
+speed_upgrade        29
+max_heat_upgrade     6
+heat_gen_upgrade     8
+heat_trans_upgrade   3
+external_in_upgrade  2
+external_out_upgrade 3
+tubelib_upgrade      3
+
+ore saw              3
+advanced ore saw     5
+coreglass pick       6
+vulcan_boots         12
+vulcan_helm          14
+vulcan_legs          20
+vulcan_chest         23
+antigrav_bracers     50
+
+iron chest           1
+copper chest         1
+silver chest         3
+gold chest           5
+mithril chest        11
+
+elevator             27
+travelnet            78
+
+99*quartz block      28
+
+tube * 33            2
+teleporter           2
+black_hole           1
+funnel               1
+biofuel * 99         1
+repair_kit * 11      1
+pusher               1
+fast pusher          2
+HP pusher            2
+HP pushing chest     3
+distributor          1
+HP distributor       2
+protected chest      1
+HP chest             1
+autocrafter          2
+quarry               3
+harvester            3
+liquid sampler       2
+fermenter            2
+reformer             2
+grinder              2
+autosieve            106
+forceload_block      54
+tubelib_lamp         1
+tubelib_streetlamp   1
+tubelib_ceilinglamp  1
+invisible_lamp       1
+industrial_lamp      1
+industrial_lamp2     1
+tubelib_button       1
+access_control       1
+tubelib_detector     1
+tubelib_timer        1
+tubelib_sequencer    2
+tubelib_repeater     1
+tubelib_programmer   1
+msecons_converter    1
+tubelib_not          1
+tubelib_door * 6     1
+tubelib_gate * 6     1
+
+small bag            1
+medium bag           2
+large bag            3
+protection block     1
+
+mesecon * 22         2
+insulated_mesecon*11 2
+digiline * 11        4
+luacontroller        1
+player_detector      1
+mesecon_button       1
+digiline_button      1
+digiline_lcd         2
+
+iron ingot * 99      10
