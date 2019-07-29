@@ -105,4 +105,5 @@ mesecon_button       1
 digiline_button      1
 digiline_lcd         2
 
-iron ingot * 99      10
+mese * 99            95
+stel block * 99      30
