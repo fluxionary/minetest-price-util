@@ -491,7 +491,21 @@ def main(args):
     print('digiline_lcd        ', cost_of(digiline_lcd, args.markup, 1))
 
     print()
-    print('iron lump * 99      ', cost_of(steel_ingot * 99*3, args.markup, args.roundup))
+    print('mese * 99           ', cost_of(mese * 99, args.markup, 1))
+    print('stel block * 99     ', cost_of(steel_block * 99, args.markup, 1))
+
+    buy_at = 1/5
+    # print()
+    # print('buy steel ingot * 99      ', cost_of(steel_ingot * 99, args.markup * buy_at, .1))
+    # print('buy diamond ore * 10      ', cost_of(diamond * 10 * 4, args.markup * buy_at, args.roundup))
+    # print('buy iron lump * 99      ', cost_of(steel_ingot * 99 * 3, args.markup * buy_at, args.roundup))
+    # print('buy copper lump * 99    ', cost_of(copper_ingot * 99 * 3, args.markup * buy_at, args.roundup))
+    # print('buy tin lump * 99       ', cost_of(tin_ingot * 99 * 3, args.markup * buy_at, args.roundup))
+    # print('buy gold lump * 99      ', cost_of(gold_ingot * 99 * 3, args.markup * buy_at, args.roundup))
+    # print('buy terumetal lump * 99 ', cost_of(terumetal_ingot * 99 * 3, args.markup * buy_at, args.roundup))
+    # print('buy silver lump * 99    ', cost_of(silver_ingot * 99 * 3, args.markup * buy_at, args.roundup))
+    # print('buy mithril lump * 99   ', cost_of(mithril_ingot * 99 * 3, args.markup * buy_at, args.roundup))
+
 
 
 def parse_args(argv=None, namespace=None):
