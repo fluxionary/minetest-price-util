@@ -11,6 +11,7 @@ COSTS = dict(
     stone=1/99,
     gravel=1/99,
     sand=1/99,
+    silver_sand=5/99,
     clay=1/99,
     dirt=5/99,
     tree=1/99,
@@ -85,6 +86,7 @@ def main(args):
     water = Components(water=1)
     flint = Components(flint=1)
     sand = Components(sand=1)
+    silver_sand = Components(silver_sand=1)
     glass = sand * 1
     cotton = Components(cotton=1)
     wool = cotton * 4
@@ -491,8 +493,20 @@ def main(args):
     print('digiline_lcd        ', cost_of(digiline_lcd, args.markup, 1))
 
     print()
+    print('gold ingot * 99     ', cost_of(gold_ingot * 99, args.markup, 1))
     print('mese * 99           ', cost_of(mese * 99, args.markup, 1))
-    print('stel block * 99     ', cost_of(steel_block * 99, args.markup, 1))
+    print('steel block * 99    ', cost_of(steel_block * 99, args.markup, 1))
+
+    tougher_titanium = titanium * 4
+    titanium_plate = (titanium * 8 + tougher_titanium) / 9
+    titanium_glass = (titanium * 4 + glass) / 3
+    terumet_glass = ((glass * 4) + silver_sand + flux) / 4
+    terumet_glow_glass = ((terumet_glass * 4) + mese + flux) / 4
+    thermese_battery = (teruceramic * 6) + (thermese * 3)
+    goggles = (titanium_plate * 5) + (titanium_glass * 2) + terumet_glow_glass + thermese_battery
+
+    print()
+    print('night vision goggles', cost_of(goggles, args.markup, 1))
 
     buy_at = 1/5
     # print()
@@ -505,7 +519,6 @@ def main(args):
     # print('buy terumetal lump * 99 ', cost_of(terumetal_ingot * 99 * 3, args.markup * buy_at, args.roundup))
     # print('buy silver lump * 99    ', cost_of(silver_ingot * 99 * 3, args.markup * buy_at, args.roundup))
     # print('buy mithril lump * 99   ', cost_of(mithril_ingot * 99 * 3, args.markup * buy_at, args.roundup))
-
 
 
 def parse_args(argv=None, namespace=None):
