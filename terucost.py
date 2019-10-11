@@ -4,7 +4,7 @@ import math
 
 # cost, in mg, of various raw materials
 _COST_SCALE = 1
-_DENOMINATOR = 172.20  # gold ore
+_DENOMINATOR = 744.65  # gold lump sieve rarity
 _CRYSTAL_SCALE = 3
 
 COSTS = dict(
@@ -23,19 +23,22 @@ COSTS = dict(
     sapling=1,
 
     # scaled by what comes out of the gravel sieve
-    coal=(22.28/_DENOMINATOR)*_COST_SCALE,
-    steel_ingot=(23.15/_DENOMINATOR)*_COST_SCALE,
-    gold_ingot=(172.20/_DENOMINATOR)*_COST_SCALE,
-    copper_ingot=(56.57/_DENOMINATOR)*_COST_SCALE,
-    tin_ingot=(77.60/_DENOMINATOR)*_COST_SCALE,
-    terumetal_ingot=(114.75/_DENOMINATOR)*_COST_SCALE,
-    silver_ingot=(128.68/_DENOMINATOR)*_COST_SCALE,
-    mithril_ingot=(523.34/_DENOMINATOR)*_COST_SCALE,
-
-    quartz=(64.46/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
-    mese=(218.43/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
-    diamond=(341.10/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
-    titanium=(665.85/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
+    coal=(96.06/_DENOMINATOR)*_COST_SCALE,
+    steel_ingot=(99.90/_DENOMINATOR)*_COST_SCALE,
+    terumetal_ingot=(199.79/_DENOMINATOR)*_COST_SCALE,
+    copper_ingot=(244.05 / _DENOMINATOR) * _COST_SCALE,
+    quartz=(277.84 / _DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
+    lead_ingot=(288.89 / _DENOMINATOR) * _COST_SCALE,
+    tin_ingot=(334.75/_DENOMINATOR)*_COST_SCALE,
+    zinc_ingot=(360.23 / _DENOMINATOR) * _COST_SCALE,
+    silver_ingot=(554.65/_DENOMINATOR) * _COST_SCALE,
+    gold_ingot=(744.65/_DENOMINATOR)*_COST_SCALE,
+    uranium_ingot=(930.01/_DENOMINATOR)*_COST_SCALE,
+    mese=(948.07/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
+    diamond=(1486.28/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
+    chromium_ingot=(1994.82/_DENOMINATOR)*_COST_SCALE,
+    mithril_ingot=(2264.81/_DENOMINATOR)*_COST_SCALE,
+    titanium=(2905.08/_DENOMINATOR)*_COST_SCALE*_CRYSTAL_SCALE,
 )
 
 
@@ -103,8 +106,8 @@ def main(args):
     papyrus = leaves * 1
 
     # metals and other ores
-    steel_ingot = Components(steel_ingot=1)
-    steel_block = steel_ingot * 9
+    wrought_iron_ingot = Components(steel_ingot=1)
+    wrought_iron_block = wrought_iron_ingot * 9
     gold_ingot = Components(gold_ingot=1)
     gold_block = gold_ingot * 9
     copper_ingot = Components(copper_ingot=1)
@@ -128,47 +131,64 @@ def main(args):
     coal_block = coal * 9
     quartz = Components(quartz=1)
     quartz_block = quartz * 1
-    brass_ingot = ((copper_ingot * 2) + silver_ingot) / 3
+
+    lead_ingot = Components(lead_ingot=1)
+    lead_block = lead_ingot * 9
+    zinc_ingot = Components(zinc_ingot=1)
+    zinc_block = zinc_ingot * 9
+    uranium_ingot = Components(uranium_ingot=1)
+    uranium_block = uranium_ingot * 9
+    chromium_ingot = Components(chromium_ingot=1)
+    chromium_block = chromium_ingot * 9
+
+    brass_ingot = ((copper_ingot * 2) + zinc_ingot) / 3
     brass_block = brass_ingot * 9
     bronze_ingot = ((copper_ingot * 8) + tin_ingot) / 9
     bronze_block = bronze_ingot * 9
 
+    carbon_steel_ingot = ((wrought_iron_ingot * 3) + coal) / 3
+    carbon_steel_block = carbon_steel_ingot * 9
+    cast_iron_ingot = ((carbon_steel_ingot * 3) + coal) / 3
+    cast_iron_block = cast_iron_ingot * 9
+    stainless_steel_ingot = ((carbon_steel_ingot * 7) + chromium_ingot) / 8
+    stainless_steel_block = stainless_steel_ingot * 9
+
     # basic craftables
-    bucket = steel_ingot * 3
+    bucket = wrought_iron_ingot * 3
     water_bucket = bucket + water
     furnace = stone * 8
     chest = planks * 8
     torch = (coal + stick) / 4
 
-    tube = (steel_ingot + tin_ingot + (planks * 3)) / 4
+    tube = (brass_ingot + bronze_ingot + (planks * 3)) / 4
 
     # "basic materials" mod
     heating_element = ((copper_ingot * 2) + mese_fragment) / 2
-    silicon = ((sand * 3) + steel_ingot) / 4
+    silicon = ((sand * 3) + wrought_iron_ingot) / 4
     simple_ic = ((silicon * 3) + copper_ingot) / 4
     copper_strip = copper_ingot / 6
-    steel_strip = steel_ingot / 6
-    chain_link_steel = steel_ingot / 2
+    steel_strip = stainless_steel_ingot / 6
+    chain_link_steel = wrought_iron_ingot / 2
     chain_steel = (chain_link_steel * 3) / 2
     chain_link_brass = brass_ingot / 2
     chain_brass = (chain_link_brass * 3) / 2
-    steel_gear = ((steel_ingot * 4) + chain_link_steel) / 6
+    steel_gear = ((carbon_steel_ingot * 4) + chain_link_steel) / 6
     oil_extract = leaves * 3
-    steel_bar = steel_ingot / 2
+    steel_bar = cast_iron_ingot / 2
     parafin = oil_extract
     plastic = parafin
     plastic_strip = plastic / 3
     empty_spool = (plastic * 7) / 3
-    steel_spool = ((empty_spool * 2) + steel_ingot) / 2
+    steel_spool = ((empty_spool * 2) + carbon_steel_ingot) / 2
     copper_spool = ((empty_spool * 2) + copper_ingot) / 2
     gold_spool = ((empty_spool * 2) + gold_ingot) / 2
     silver_spool = ((empty_spool * 2) + silver_ingot) / 2
-    padlock = ((steel_ingot * 2) + steel_bar) / 2
+    padlock = ((wrought_iron_ingot * 2) + steel_bar) / 2
     energy_crystal = (diamond * 2) + (mese_fragment * 2) + torch + gold_ingot
-    motor = (mese_fragment * 2) + (copper_spool * 2) + (plastic * 2) + (steel_ingot * 2) + copper_ingot
+    motor = (mese_fragment * 2) + (copper_spool * 2) + (plastic * 2) + bronze_ingot + cast_iron_ingot + steel_gear
 
     # terumet crystalized things
-    iron_crystal = steel_ingot
+    iron_crystal = wrought_iron_ingot
     gold_crystal = gold_ingot
     tin_crystal = tin_ingot
     copper_crystal = copper_ingot
@@ -176,9 +196,15 @@ def main(args):
     obsidian_crystal = obsidian
     diamond_crystal = diamond
     mese_crystal = mese
+    silver_crystal = silver_ingot
+    mithril_crysal = mithril_ingot
+    zinc_crystal = zinc_ingot
+    lead_crystal = lead_ingot
+    uranium_crystal = uranium_ingot
+    chromium_crystal = chromium_ingot
 
     flux = terumetal_ingot / 2
-    terusteel_ingot = steel_ingot + (flux * 2)
+    terusteel_ingot = wrought_iron_ingot + (flux * 2)
     terucopper_ingot = copper_ingot + flux
     terucopper_block = terucopper_ingot * 9
     terutin_ingot = tin_ingot + flux
@@ -274,7 +300,7 @@ def main(args):
     vulcan_chest = rsuit_mat * 8
 
     bracers = (terumetal_crystal * 5) + (terugold_coil * 4)
-    bracer_base_element = steel_block / 2
+    bracer_base_element = wrought_iron_block / 2
     antigrav_element = bracer_base_element + entropic_crystal + (flux * 4)
     antigrav_bracers = bracers + (antigrav_element * 8)
     aqua_element = bracer_base_element + papyrus + (flux * 4)
@@ -329,8 +355,8 @@ def main(args):
     print('vulcan_chest        ', cost_of(vulcan_chest, args.markup, args.roundup))
     print('antigrav_bracers    ', cost_of(antigrav_bracers, args.markup, args.roundup))
 
-    locked_chest = chest + steel_ingot
-    iron_chest = locked_chest + (steel_ingot * 8)
+    locked_chest = chest + wrought_iron_ingot
+    iron_chest = locked_chest + (cast_iron_ingot * 8)
     copper_chest = iron_chest + (copper_ingot * 8)
     silver_chest = copper_chest + (silver_ingot * 8)
     gold_chest = silver_chest + (gold_ingot * 8)
@@ -343,7 +369,7 @@ def main(args):
     print('gold chest          ', cost_of(gold_chest, args.markup, args.roundup))
     print('mithril chest       ', cost_of(mithril_chest, args.markup, args.roundup))
 
-    elevator = titanium_block + (glass * 2) + (steel_ingot * 6)
+    elevator = titanium_block + (glass * 2) + (wrought_iron_ingot * 6)
     travelnet = (titanium_block * 2) + (mese_block * 3) + (glass * 4)
 
     print()
@@ -353,111 +379,114 @@ def main(args):
     print()
     print('99*quartz block     ', cost_of(quartz_block * 99, args.markup, args.roundup))
 
-    wlan_chip = (mese + copper_ingot + gold_ingot + glass) / 8
-    end_wrench = ((steel_ingot * 2) + tin_ingot) / 4
+    wlan_chip = (mese + copper_ingot + gold_ingot + silicon) / 8
+    end_wrench = (stainless_steel_ingot * 3) / 4
 
     tougher_titanium = titanium * 4
-    titanium_tv = (tougher_titanium * 4) + (steel_ingot * 4) + glass
+    titanium_tv = (tougher_titanium * 4) + (wrought_iron_ingot * 4) + glass
 
     mesecon = mese / 18
+    small_trash_can = ((wrought_iron_ingot * 3) + (steel_spool * 2)) / 3
 
     sieve = diamond_block + (planks * 6)
     autosieve = sieve + (diamond_block * 5) + (mese_block * 3)
 
-    pusher = ((planks * 4) + (wool * 2) + (tube * 2) + mese) / 2
+    pusher = ((planks * 4) + (wool * 2) + (tube * 2) + motor) / 2
     forceload_block = (planks * 4) + (energy_crystal * 2) + wlan_chip + titanium_tv
-    tubelib_distributor = ((planks * 4) + (tube * 2) + (steel_ingot * 2) + mese) / 2
-    black_hole = ((planks * 4) + (coal * 2) + tube) / 2
-    teleporter = ((planks * 2) + (gold_ingot * 2) + (mese * 2) + tube) / 2
-    protected_chest = chest + tube + steel_ingot
-    hp_pusher = (pusher * 2) + tin_ingot + gold_ingot
-    hp_distributor = (tubelib_distributor * 2) + tin_ingot + gold_ingot
-    hp_chest = (protected_chest * 2) + tin_ingot + gold_ingot
-    hp_pushing_chest = hp_pusher + protected_chest + tin_ingot + gold_ingot
+    tubelib_distributor = ((planks * 4) + (tube * 4) + motor) / 2
+    black_hole = ((planks * 4) + coal + small_trash_can + tube) / 2
+    teleporter = ((planks * 2) + (mese_crystal * 2) + (uranium_crystal * 2) + tube)
+    protected_chest = chest + tube + wrought_iron_ingot
 
-    tubelib_lamp = ((wool * 3) + (planks * 2) + wlan_chip + coal) / 4
-    tubelib_streetlamp = (tubelib_lamp + glass + steel_ingot) / 2
-    tubelib_ceilinglamp = (tubelib_lamp + planks + glass) / 3
-    invisible_lamp = ((torch * 4) + wlan_chip) / 2
-    industrial_lamp = ((plastic_strip * 2) + glass + wlan_chip + dye + copper_ingot)
-    industrial_lamp2 = ((glass * 2) + (steel_bar * 2) + wlan_chip + dye)
-
-    tubelib_button = (planks * 2) + glass + wlan_chip
-    tubelib_timer = (planks * 4) + wlan_chip + gold_ingot
-    tubelib_sequencer = (planks * 4) + mese + wlan_chip
-    tubelib_repeater = (planks * 2) + (wlan_chip * 2)
-    tubelib_programmer = steel_ingot + wlan_chip + dye
-    tubelib_msecons_converter = tubelib_button + mesecon
-    tubelib_not = (planks * 2) + (wlan_chip * 2)
-    tubelib_door = planks + wlan_chip
-    tubelib_gate = planks + wlan_chip
-    access_control = steel_block + wlan_chip
-    tubelib_detector = (planks * 2) + (tube * 2) + wlan_chip
-
-    fermenter = (steel_ingot * 4) + (tube * 2) + dirt + mese + planks
-    reformer = (steel_ingot * 4) + (tube * 2) + clay + mese + planks
-    quarry = (planks * 4) + (mese * 3) + tube + steel_ingot
+    fermenter = (steel_strip * 2) + (tube * 2) + (lead_ingot * 2) + dirt + motor + bucket
+    reformer = (steel_strip * 2) + (tube * 2) + (lead_ingot * 2) + clay + motor + bucket
+    quarry = (planks * 4) + (mese * 7) + tube + (stick * 6)
     fast_pusher = pusher * 3
-    liquid_sampler = (planks * 4) + (steel_ingot * 2) + mese + tube + bucket
-    harvester = (planks * 2) + (mese * 3) + (steel_ingot * 3) + tube
-    grinder = (planks * 4) + (tube * 2) + (tin_ingot * 2) + mese
-    funnel = ((planks * 4) + steel_ingot + mese + tube) / 2
-    autocrafter = (planks * 2) + (tube * 2) + (steel_ingot * 4) + mese
+    liquid_sampler = (planks * 4) + (lead_ingot * 2) + motor + tube + bucket
+    harvester = (planks * 4) + (mese * 5) + (silver_ingot * 2) + tube + motor + (stick * 5)
+    grinder = (planks * 4) + (tube * 2) + motor + steel_gear + lead_block
+    funnel = protected_chest + bucket
+    autocrafter = (planks * 2) + (tube * 2) + (wrought_iron_ingot * 2) + motor + simple_ic + steel_gear
     biogas = leaves * 2
     biofuel = biogas * 4
 
     repair_kit = steel_gear + end_wrench + oil_extract
 
+    hp_pusher = (fast_pusher * 2) + brass_ingot + terugold_ingot
+    hp_distributor = (tubelib_distributor * 2) + brass_ingot + terugold_ingot
+    hp_chest = (protected_chest * 2) + brass_ingot + terugold_ingot
+    hp_pushing_chest = hp_pusher + hp_chest + brass_ingot + terugold_ingot
+    hp_funnel = (funnel * 2) + brass_ingot + terugold_ingot
+
+    tubelib_lamp = ((plastic * 3) + (planks * 2) + wlan_chip + mese_fragment) / 4
+    tubelib_streetlamp = (tubelib_lamp + glass + wrought_iron_ingot) / 2
+    tubelib_ceilinglamp = (tubelib_lamp + planks + glass) / 3
+    invisible_lamp = tubelib_lamp + obsidian_glass
+    industrial_lamp = ((plastic_strip * 2) + glass + wlan_chip + dye + copper_ingot)
+    industrial_lamp2 = ((glass * 2) + (steel_bar * 2) + wlan_chip + dye)
+
+    tubelib_button = (planks * 2) + glass + wlan_chip
+    tubelib_timer = (planks * 4) + wlan_chip + quartz
+    tubelib_sequencer = (planks * 4) + simple_ic + wlan_chip
+    tubelib_repeater = (planks * 2) + (wlan_chip * 2)
+    tubelib_programmer = wrought_iron_ingot + wlan_chip + dye
+    tubelib_msecons_converter = tubelib_button + mesecon
+    tubelib_not = (planks * 2) + (wlan_chip * 2)
+    tubelib_door = planks + wlan_chip
+    tubelib_gate = planks + wlan_chip
+    access_control = wrought_iron_block + wlan_chip
+    tubelib_detector = (planks * 2) + (tube * 2) + wlan_chip
+
 
     print()
-    print('tube * 33           ', cost_of(tube * 33, args.markup, 1))
-    print('teleporter          ', cost_of(teleporter, args.markup, 1))
-    print('black_hole          ', cost_of(black_hole, args.markup, 1))
-    print('funnel              ', cost_of(funnel, args.markup, 1))
-    print('biofuel * 99        ', cost_of(biofuel * 99, args.markup, 1))
-    print('repair_kit * 11     ', cost_of(repair_kit * 11, args.markup, 1))
+    print('tube * 33           ', cost_of(tube * 33, args.markup, .25))
+    print('teleporter          ', cost_of(teleporter, args.markup, .25))
+    print('black_hole          ', cost_of(black_hole, args.markup, .25))
+    print('funnel              ', cost_of(funnel, args.markup, .25))
+    print('biofuel * 99        ', cost_of(biofuel * 99, args.markup, .25))
+    print('repair_kit * 11     ', cost_of(repair_kit * 11, args.markup, .25))
 
-    print('pusher              ', cost_of(pusher, args.markup, 1))
-    print('fast pusher         ', cost_of(fast_pusher, args.markup, 1))
-    print('HP pusher           ', cost_of(hp_pusher, args.markup, 1))
-    print('HP pushing chest    ', cost_of(hp_pushing_chest, args.markup, 1))
+    print('pusher              ', cost_of(pusher, args.markup, .25))
+    print('fast pusher         ', cost_of(fast_pusher, args.markup, .25))
+    print('HP pusher           ', cost_of(hp_pusher, args.markup, .25))
+    print('HP pushing chest    ', cost_of(hp_pushing_chest, args.markup, .25))
 
-    print('distributor         ', cost_of(tubelib_distributor, args.markup, 1))
-    print('HP distributor      ', cost_of(hp_distributor, args.markup, 1))
+    print('distributor         ', cost_of(tubelib_distributor, args.markup, .25))
+    print('HP distributor      ', cost_of(hp_distributor, args.markup, .25))
 
-    print('protected chest     ', cost_of(protected_chest, args.markup, 1))
-    print('HP chest            ', cost_of(hp_chest, args.markup, 1))
+    print('protected chest     ', cost_of(protected_chest, args.markup, .25))
+    print('HP chest            ', cost_of(hp_chest, args.markup, .25))
 
-    print('autocrafter         ', cost_of(autocrafter, args.markup, 1))
-    print('quarry              ', cost_of(quarry, args.markup, 1))
-    print('harvester           ', cost_of(harvester, args.markup, 1))
-    print('liquid sampler      ', cost_of(liquid_sampler, args.markup, 1))
+    print('autocrafter         ', cost_of(autocrafter, args.markup, .25))
+    print('quarry              ', cost_of(quarry, args.markup, .25))
+    print('harvester           ', cost_of(harvester, args.markup, .25))
+    print('liquid sampler      ', cost_of(liquid_sampler, args.markup, .25))
 
-    print('fermenter           ', cost_of(fermenter, args.markup, 1))
-    print('reformer            ', cost_of(reformer, args.markup, 1))
-    print('grinder             ', cost_of(grinder, args.markup, 1))
+    print('fermenter           ', cost_of(fermenter, args.markup, .25))
+    print('reformer            ', cost_of(reformer, args.markup, .25))
+    print('grinder             ', cost_of(grinder, args.markup, .25))
     print('autosieve           ', cost_of(autosieve, args.markup, args.roundup))
 
     print('forceload_block     ', cost_of(forceload_block, args.markup, args.roundup))
 
-    print('tubelib_lamp        ', cost_of(tubelib_lamp, args.markup, 1))
-    print('tubelib_streetlamp  ', cost_of(tubelib_streetlamp, args.markup, 1))
-    print('tubelib_ceilinglamp ', cost_of(tubelib_ceilinglamp, args.markup, 1))
-    print('invisible_lamp      ', cost_of(invisible_lamp, args.markup, 1))
-    print('industrial_lamp     ', cost_of(industrial_lamp, args.markup, 1))
-    print('industrial_lamp2    ', cost_of(industrial_lamp2, args.markup, 1))
+    print('tubelib_lamp        ', cost_of(tubelib_lamp, args.markup, .25))
+    print('tubelib_streetlamp  ', cost_of(tubelib_streetlamp, args.markup, .25))
+    print('tubelib_ceilinglamp ', cost_of(tubelib_ceilinglamp, args.markup, .25))
+    print('invisible_lamp      ', cost_of(invisible_lamp, args.markup, .25))
+    print('industrial_lamp     ', cost_of(industrial_lamp, args.markup, .25))
+    print('industrial_lamp2    ', cost_of(industrial_lamp2, args.markup, .25))
 
-    print('tubelib_button      ', cost_of(tubelib_button, args.markup, 1))
-    print('access_control      ', cost_of(access_control, args.markup, 1))
-    print('tubelib_detector    ', cost_of(tubelib_detector, args.markup, 1))
-    print('tubelib_timer       ', cost_of(tubelib_timer, args.markup, 1))
-    print('tubelib_sequencer   ', cost_of(tubelib_sequencer, args.markup, 1))
-    print('tubelib_repeater    ', cost_of(tubelib_repeater, args.markup, 1))
-    print('tubelib_programmer  ', cost_of(tubelib_programmer, args.markup, 1))
-    print('msecons_converter   ', cost_of(tubelib_msecons_converter, args.markup, 1))
-    print('tubelib_not         ', cost_of(tubelib_not, args.markup, 1))
-    print('tubelib_door * 6    ', cost_of(tubelib_door * 6, args.markup, 1))
-    print('tubelib_gate * 6    ', cost_of(tubelib_gate * 6, args.markup, 1))
+    print('tubelib_button      ', cost_of(tubelib_button, args.markup, .25))
+    print('access_control      ', cost_of(access_control, args.markup, .25))
+    print('tubelib_detector    ', cost_of(tubelib_detector, args.markup, .25))
+    print('tubelib_timer       ', cost_of(tubelib_timer, args.markup, .25))
+    print('tubelib_sequencer   ', cost_of(tubelib_sequencer, args.markup, .251))
+    print('tubelib_repeater    ', cost_of(tubelib_repeater, args.markup, .25))
+    print('tubelib_programmer  ', cost_of(tubelib_programmer, args.markup, .25))
+    print('msecons_converter   ', cost_of(tubelib_msecons_converter, args.markup, .25))
+    print('tubelib_not         ', cost_of(tubelib_not, args.markup, .25))
+    print('tubelib_door * 6    ', cost_of(tubelib_door * 6, args.markup, .25))
+    print('tubelib_gate * 6    ', cost_of(tubelib_gate * 6, args.markup, .25))
 
     small_bag = (wool * 6) + cotton
     medium_bag =(small_bag * 2) + (cotton * 2)
@@ -467,7 +496,7 @@ def main(args):
     print('small bag           ', cost_of(small_bag, args.markup, 1))
     print('medium bag          ', cost_of(medium_bag, args.markup, 1))
     print('large bag           ', cost_of(large_bag, args.markup, 1))
-    print('protection block    ', cost_of(steel_ingot * 10, args.markup, 1))
+    print('protection block    ', cost_of(wrought_iron_ingot * 10, args.markup, 1))
 
     glue = sapling / 2
     fiber = glue / 6
@@ -476,26 +505,29 @@ def main(args):
 
     luacontroller = ((silicon * 4) + (mesecon * 4)) / 2
     microcontroller = luacontroller
-    player_detector = (steel_ingot * 7) + microcontroller + microcontroller
+    player_detector = (wrought_iron_ingot * 7) + microcontroller + microcontroller
     mesecon_button = (mesecon + stone) / 2
     digiline_button = (mesecon_button + luacontroller + digiline)
     lightstone = (dye * 3) + torch + mesecon
-    digiline_lcd = ((glass * 3) + (lightstone * 3) + (steel_ingot * 2) + digiline)
+    digiline_lcd = ((glass * 3) + (lightstone * 3) + (wrought_iron_ingot * 2) + digiline)
 
     print()
-    print('mesecon * 22        ', cost_of(mesecon * 22, args.markup, 1))
-    print('insulated_mesecon*11', cost_of(insulated_mesecon * 11, args.markup, 1))
-    print('digiline * 11       ', cost_of(digiline * 11, args.markup, 1))
-    print('luacontroller       ', cost_of(luacontroller, args.markup, 1))
-    print('player_detector     ', cost_of(player_detector, args.markup, 1))
-    print('mesecon_button      ', cost_of(mesecon_button, args.markup, 1))
-    print('digiline_button     ', cost_of(digiline_button, args.markup, 1))
-    print('digiline_lcd        ', cost_of(digiline_lcd, args.markup, 1))
+    print('mesecon * 22        ', cost_of(mesecon * 22, args.markup, .25))
+    print('insulated_mesecon*11', cost_of(insulated_mesecon * 11, args.markup, .25))
+    print('digiline * 11       ', cost_of(digiline * 11, args.markup, .25))
+    print('luacontroller       ', cost_of(luacontroller, args.markup, .25))
+    print('player_detector     ', cost_of(player_detector, args.markup, .25))
+    print('mesecon_button      ', cost_of(mesecon_button, args.markup, .25))
+    print('digiline_button     ', cost_of(digiline_button, args.markup, .25))
+    print('digiline_lcd        ', cost_of(digiline_lcd, args.markup, .25))
 
     print()
     print('gold ingot * 99     ', cost_of(gold_ingot * 99, args.markup, 1))
+    print('silver ingot * 99   ', cost_of(silver_ingot * 99, args.markup, 1))
+    print('tin ingot * 99      ', cost_of(tin_ingot * 99, args.markup, 1))
     print('mese * 99           ', cost_of(mese * 99, args.markup, 1))
-    print('steel block * 99    ', cost_of(steel_block * 99, args.markup, 1))
+    print('steel block * 99    ', cost_of(wrought_iron_block * 99, args.markup, 1))
+    print('titanium block * 6  ', cost_of(titanium_block * 6, args.markup, 1))
 
     tougher_titanium = titanium * 4
     titanium_plate = (titanium * 8 + tougher_titanium) / 9
@@ -510,9 +542,9 @@ def main(args):
 
     buy_at = 1/5
     # print()
-    # print('buy steel ingot * 99      ', cost_of(steel_ingot * 99, args.markup * buy_at, .1))
+    # print('buy steel ingot * 99      ', cost_of(wrought_iron_ingot * 99, args.markup * buy_at, .1))
     # print('buy diamond ore * 10      ', cost_of(diamond * 10 * 4, args.markup * buy_at, args.roundup))
-    # print('buy iron lump * 99      ', cost_of(steel_ingot * 99 * 3, args.markup * buy_at, args.roundup))
+    # print('buy iron lump * 99      ', cost_of(wrought_iron_ingot * 99 * 3, args.markup * buy_at, args.roundup))
     # print('buy copper lump * 99    ', cost_of(copper_ingot * 99 * 3, args.markup * buy_at, args.roundup))
     # print('buy tin lump * 99       ', cost_of(tin_ingot * 99 * 3, args.markup * buy_at, args.roundup))
     # print('buy gold lump * 99      ', cost_of(gold_ingot * 99 * 3, args.markup * buy_at, args.roundup))
